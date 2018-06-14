@@ -121,18 +121,19 @@ class DocReaderModel(object):
         self.network.eval()
 
         # Transfer to GPU
-        if self.opt['cuda']:
-            inputs = [Variable(e.cuda(async=True), volatile=True)
-                      for e in ex[:5]]
-        else:
-            inputs = [Variable(e, volatile=True) for e in ex[:5]]
+        with torch.no_grad(): 
+            if self.opt['cuda']:
+                inputs = [Variable(e.cuda(async=True))
+                for e in ex[:5]]
+            else:
+                inputs = [Variable(e) for e in ex[:5]]
 
-        # Run forward
-        score_s, score_e = self.network(*inputs)
+            # Run forward
+            score_s, score_e = self.network(*inputs)
 
-        # Transfer to CPU/normal tensors for numpy ops
-        score_s = score_s.data.cpu()
-        score_e = score_e.data.cpu()
+            # Transfer to CPU/normal tensors for numpy ops
+            score_s = score_s.data.cpu()
+            score_e = score_e.data.cpu()
 
         # Get argmax text spans
         text = ex[-2]
