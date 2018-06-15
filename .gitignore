@@ -1,3 +1,8 @@
+# Custom
+*ENV/
+create*env*
+notebook/
+nohup.out
 # MISC
 *.tmp
 .watchmanconfig
@@ -96,8 +101,6 @@ celerybeat-schedule
 # virtualenv
 venv/
 ENV/
-*ENV/
-create*env*
 
 # Spyder project settings
 .spyderproject
